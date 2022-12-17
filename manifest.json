@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "name": "KEYWORD",
+  "version": "0.1.69",
+  "short_name": "analyzes SERP text",
+  "description": "Simple tool to get various analytics for a SERP webpage text",
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "browser_action": {
+    "default_icon": "images/icon128.png",
+    "default_popup": "html/popup.html",
+    "default_title": "KEYWORD"
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "scripts/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "scripts": [
+      "scripts/background.js"
+    ]
+  }
+}
