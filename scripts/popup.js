@@ -1,8 +1,12 @@
+let target
+let output
+let divResult
+
 const initialize = () => {
     const btn = document.getElementById('btn')
     btn.addEventListener('click', () => {
         const message = localStorage.getItem('doctext')
-        const output = getOutput(message)
+        output = getOutput(message)
         console.log(output)
         if (!output['phrases']) {
             displayOutput()
@@ -29,12 +33,14 @@ const createNode = (tag, text, classList, attr) => {
 const clsTabs = ['tabs', 'is-small', 'is-centered', 'is-boxed', 'pr-5']
 const clsColumns = ['columns', 'is-mobile', 'mb-4', 'mr-3']
 const clsColumn = ['column', 'is-three-fifths']
+const clsColumn25 = ['column', 'is-two-fifths']
 const clsMessageNoWords = ['message', 'is-danger']
+const clsMessageTitleDigit = ['message', 'is-primary']
 
 
 
 const displayOutput = (output) => {
-    const target = document.getElementById('target')
+    target = document.getElementById('target')
     target.replaceChildren()
     if (!output) {
         const msgContainer = createNode('article', null, clsMessageNoWords)
@@ -43,19 +49,37 @@ const displayOutput = (output) => {
         target.appendChild(msgContainer)
         return
     }
-
-    const tabs = createTabs(output)
-    target.appendChild(tabs)
-
-    createOutputPhrases(output, target)
-    // TODO
-    // createOutputWords(output, target)
-    // createOutputTitles(output, target)
-    // createOutputSnippet(output, target)
+    tabs = createTabs()
+    openTab('Words')
 }
 
 
-const createOutputPhrases = (output, target) => {
+const openTab = (name) => {
+    divResult.replaceChildren()
+    const tabs = document.querySelectorAll('.tabs li')
+    tabs.forEach(tab => tab.classList.remove('is-active'))
+    const tab = document.getElementById(`tab-${name}`)
+    tab.classList.add('is-active')
+    switch (name) {
+        case 'Words':
+            createOutputWords()
+            break
+        case 'Phrases':
+            createOutputPhrases()
+            break
+        case 'Titles':
+            createOutputTitles()
+            break
+        case 'Snippet':
+            createOutputSnippet()
+            break
+        default:
+            break
+    }
+}
+
+
+const createOutputPhrases = () => {
     const phrases = output['phrases']
     const divCols = createNode('div', null, clsColumns)
     const divCol1 = createNode('div', null, clsColumn)
@@ -66,8 +90,7 @@ const createOutputPhrases = (output, target) => {
     divCol2.appendChild(col2Heading)
     divCols.appendChild(divCol1)
     divCols.appendChild(divCol2)
-    target.appendChild(divCols)
-
+    divResult.appendChild(divCols)
     const max = phrases[0][1]
     phrases.forEach(item => {
         const q = { 'value': item[1], 'max': max }
@@ -78,43 +101,125 @@ const createOutputPhrases = (output, target) => {
         divCol2.appendChild(progress)
         divCols.appendChild(divCol1)
         divCols.appendChild(divCol2)
-        target.appendChild(divCols)
+        divResult.appendChild(divCols)
     })
 }
 
 
+const createOutputWords = () => {
+    const words = output['words']
+    const divCols = createNode('div', null, clsColumns)
+    const divCol1 = createNode('div', null, clsColumn25)
+    const col1Heading = createNode('b', 'Words')
+    const divCol2 = createNode('div', null, ['column'])
+    const col2Heading = createNode('b', 'Count')
+    divCol1.appendChild(col1Heading)
+    divCol2.appendChild(col2Heading)
+    divCols.appendChild(divCol1)
+    divCols.appendChild(divCol2)
+    divResult.appendChild(divCols)
+    const max = words[0][1]
+    words.forEach(item => {
+        const q = { 'value': item[1], 'max': max }
+        const divCols = createNode('div', null, clsColumns)
+        const divCol1 = createNode('div', item[0], clsColumn25)
+        const divCol2 = createNode('div', null, ['column'])
+        const span = createNode('span', `${item[1]}\u00A0\u00A0\u00A0`)
+        const progress = createNode('progress', null, null, q)
+        divCol2.appendChild(span)
+        divCol2.appendChild(progress)
+        divCols.appendChild(divCol1)
+        divCols.appendChild(divCol2)
+        divResult.appendChild(divCols)
+    })
+}
 
-const createTabs = (output) => {
+
+const createOutputSnippet = () => {
+    const snippet = output['snippet']
+    const divCols = createNode('div', null, clsColumns)
+    const divCol1 = createNode('div', null, clsColumn25)
+    const col1Heading = createNode('b', 'Words')
+    const divCol2 = createNode('div', null, ['column'])
+    const col2Heading = createNode('b', 'Count')
+    divCol1.appendChild(col1Heading)
+    divCol2.appendChild(col2Heading)
+    divCols.appendChild(divCol1)
+    divCols.appendChild(divCol2)
+    divResult.appendChild(divCols)
+    const max = snippet[0][1]
+    snippet.forEach(item => {
+        const q = { 'value': item[1], 'max': max }
+        const divCols = createNode('div', null, clsColumns)
+        const divCol1 = createNode('div', item[0], clsColumn25)
+        const divCol2 = createNode('div', null, ['column'])
+        const span = createNode('span', `${item[1]}\u00A0\u00A0\u00A0`)
+        const progress = createNode('progress', null, null, q)
+        divCol2.appendChild(span)
+        divCol2.appendChild(progress)
+        divCols.appendChild(divCol1)
+        divCols.appendChild(divCol2)
+        divResult.appendChild(divCols)
+    })
+}
+
+
+const createOutputTitles = () => {
+    const titles = output['titles']
+    const msg = createNode('article', null, clsMessageTitleDigit)
+    const msgBody = createNode('div', null, ['message-body'])
+    const msgText = createNode('b', `\u00A0\u00A0\u00A0${titles[0]}`)
+    msgBody.appendChild(msgText)
+    msg.appendChild(msgBody)
+    divResult.appendChild(msg)
+    const divCols = createNode('div', null, clsColumns)
+    const divCol1 = createNode('div', null, clsColumn25)
+    const col1Heading = createNode('b', 'Words')
+    const divCol2 = createNode('div', null, ['column'])
+    const col2Heading = createNode('b', 'Count')
+    divCol1.appendChild(col1Heading)
+    divCol2.appendChild(col2Heading)
+    divCols.appendChild(divCol1)
+    divCols.appendChild(divCol2)
+    divResult.appendChild(divCols)
+    const max = titles[1][1]
+    const titleWords = titles.slice(1)
+    titleWords.forEach(item => {
+        const q = { 'value': item[1], 'max': max }
+        const divCols = createNode('div', null, clsColumns)
+        const divCol1 = createNode('div', item[0], clsColumn25)
+        const divCol2 = createNode('div', null, ['column'])
+        const span = createNode('span', `${item[1]}\u00A0\u00A0\u00A0`)
+        const progress = createNode('progress', null, null, q)
+        divCol2.appendChild(span)
+        divCol2.appendChild(progress)
+        divCols.appendChild(divCol1)
+        divCols.appendChild(divCol2)
+        divResult.appendChild(divCols)
+    })
+}
+
+
+const createTabs = () => {
     const tabs = createNode('div', null, clsTabs)
     const ulTabs = createNode('ul')
-
-    const liWords = createNode('li', null, ['is-active'])
-    const spanWords = createNode('a', 'Words')
-    liWords.appendChild(spanWords)
-    ulTabs.appendChild(liWords)
-
-    const liPhrases = createNode('li')
-    const spanPhrases = createNode('a', 'Phrases')
-    liPhrases.appendChild(spanPhrases)
-    ulTabs.appendChild(liPhrases)
-
-    if (output['titles']) {
-        const liTitles = createNode('li')
-        const spanTitles = createNode('a', 'Titles')
-        liTitles.appendChild(spanTitles)
-        ulTabs.appendChild(liTitles)
-    }
-
-    if (output['snippet']) {
-        const liSnippet = createNode('li')
-        const spanSnippet = createNode('a', 'Snippet')
-        liSnippet.appendChild(spanSnippet)
-        ulTabs.appendChild(liSnippet)
-    }
-
+    const tabNames = ['Words', 'Phrases', 'Titles', 'Snippet']
+    tabNames.forEach(name => {
+        if (output[name.toLowerCase()]) {
+            const li = createNode('li', null, null, { 'id': `tab-${name}` })
+            li.addEventListener('click', () => openTab(name))
+            const span = createNode('a', name)
+            li.appendChild(span)
+            ulTabs.appendChild(li)
+        }
+    })
+    divResult = createNode('div', null, null, { 'id': 'result' })
     tabs.appendChild(ulTabs)
-    return tabs
+    target.appendChild(tabs)
+    target.appendChild(divResult)
 }
+
+
 
 const getOutput = (message) => {
     const data = JSON.parse(message)
@@ -154,7 +259,9 @@ const getOutput = (message) => {
         const titleNo = titles.length
         let titleDigitCount = 0
         let titleWordList = []
-        titles.forEach(title => {
+        const gTitles = ['people also ask', 'related searches', 'videos']
+        const filteredTitles = titles.filter(title => !gTitles.includes(title.trim()))
+        filteredTitles.forEach(title => {
             if (/\d+/gm.test(title)) titleDigitCount++
             const matches = title.toLowerCase().matchAll(/[a-z][a-z0-9]+/gm)
             for (const match of matches) {
@@ -163,7 +270,7 @@ const getOutput = (message) => {
         })
         const sTitleWordList = titleWordList.filter(w => !stopwords.includes(w))
         const titleWordDict = counter(sTitleWordList)
-        outputTitles = [`titles with digits: ${titleDigitCount}/${titleNo}`, ...mostCommon(titleWordDict, 10)]
+        outputTitles = [`titles containing digits: ${titleDigitCount}/${titleNo}`, ...mostCommon(titleWordDict, 10)]
     }
     return {
         'words': topWordList,
@@ -281,3 +388,4 @@ const getPhrasesByWord2 = (word, wordList, dmin, dmax) => {
     })
     return temp
 }
+
