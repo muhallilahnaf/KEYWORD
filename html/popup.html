@@ -4,185 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="bulma.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
-<body class="p-2 pl-5 pt-5">
-    <div class="block">
-        <div class="columns is-mobile">
-            <div class="column is-one-fifth">
-                <button id="btn" class="button is-primary is-rounded is-small has-text-black">analyze</button>
-            </div>
-            <div class="column"></div>
-            <div class="column is-two-fifth">
-                <p class="title is-4">KEYWORD</p>
-            </div>
-        </div>
-    </div>
-    <div id="target" class="block">
-        <!-- <div class="tabs is-small is-centered is-boxed pr-5">
-            <ul>
-                <li class="is-active"><a>Phrases</a></li>
-                <li><a>Words</a></li>
+<body>
+    <nav class="navbar navbar-expand">
+        <div class="container">
+            <a class="navbar-brand"><img src="../images/banner.png" alt="banner" /></a>
+            <ul class="navbar-nav mb-2">
+                <li class="nav-item">
+                    <button id="btn" type="button" class="btn btn-dark">Refresh</button>
+                </li>
             </ul>
         </div>
-        <div class="columns">
-
-        </div>
-        <article class="message is-primary">
-            <div class="message-body">
-                <b>
-                    &nbsp;&nbsp;&nbsp;titles containing digits: 5/10
-                </b>
-            </div>
-        </article>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-two-fifths">
-                <b>words</b>
-            </div>
-            <div class="column">
-                <b>count</b>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-two-fifths">microsoft</div>
-            <div class="column">
-                <div class="level">
-                    <div class="level-left">
-                        <div class="level-item">18</div>
-                    </div>
-                    <div class="level-right">
-                        <div class="level-item">
-                            <progress value="18" max="18"></progress>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">excel</div>
-            <div class="column">
-                <span>16&nbsp;&nbsp;&nbsp;</span>
-                <progress value="16" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-two-fifths">responding</div>
-            <div class="column">
-                <div class="columns is-mobile">
-                    <div class="column is-one-fifths">14</div>
-                    <div class="column">
-                        <progress value="14" max="18"></progress>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="tabs is-small is-centered is-boxed pr-5">
-            <ul>
-                <li class="is-active"><a>Phrases</a></li>
-                <li><a>Words</a></li>
-            </ul>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">
-                <b>phrases</b>
-            </div>
-            <div class="column">
-                <b>count</b>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">microsoft excel not responding</div>
-            <div class="column">
-                <progress value="18" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">how to fix microsoft excel</div>
-            <div class="column">
-                <progress value="16" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">fix microsoft excel not responding</div>
-            <div class="column">
-                <progress value="16" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">excel not responding</div>
-            <div class="column">
-                <progress value="16" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">to fix microsoft excel</div>
-            <div class="column">
-                <progress value="15" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">microsoft excel not</div>
-            <div class="column">
-                <progress value="14" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">fix microsoft excel</div>
-            <div class="column">
-                <progress value="12" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">fix microsoft excel not</div>
-            <div class="column">
-                <progress value="12" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">to fix microsoft excel not</div>
-            <div class="column">
-                <progress value="12" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">how to fix microsoft</div>
-            <div class="column">
-                <progress value="12" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">to fix microsoft</div>
-            <div class="column">
-                <progress value="10" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">how to fix</div>
-            <div class="column">
-                <progress value="10" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">microsoft excel not responding error</div>
-            <div class="column">
-                <progress value="9" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">to fix microsoft excel not responding</div>
-            <div class="column">
-                <progress value="9" max="18"></progress>
-            </div>
-        </div>
-        <div class="columns is-mobile mb-4 mr-3">
-            <div class="column is-three-fifths">how to fix microsoft excel has</div>
-            <div class="column">
-                <progress value="6" max="18"></progress>
-            </div>
-        </div> -->
-    </div>
+    </nav>
+    <div id="target" class="container"></div>
+    <script src="../scripts/bootstrap.min.js"></script>
+    <script src="../scripts/variables.js"></script>
+    <script src="../scripts/calculation.js"></script>
+    <script src="../scripts/dom.js"></script>
     <script src="../scripts/popup.js"></script>
 </body>
 

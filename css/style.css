@@ -2,12 +2,14 @@ body {
     min-height: 50px;
     max-height: 600px;
     width: 500px;
-    /* max-width: 600px; */
+    font-size: smaller;
     /* background-color: antiquewhite; */
 }
 
-#target div {
-    padding: 0;
-    font-size: small;
-    /* padding-left: 12px; */
+nav img {
+    width: 250px;
+}
+
+#result .row span {
+    font-size: medium;
 }
