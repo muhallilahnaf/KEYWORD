@@ -3,13 +3,16 @@ body {
     max-height: 600px;
     width: 500px;
     font-size: smaller;
-    /* background-color: antiquewhite; */
 }
 
 nav img {
-    width: 250px;
+    height: 60px;
 }
 
 #titleDigits {
     font-size: medium;
+}
+
+form button {
+    background-color: #b21a24 !important;
 }

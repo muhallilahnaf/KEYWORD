@@ -1,14 +1,5 @@
+let message
 let output
-let amountWords = 10
-let amountPhrases = 15
-let amountTitles = 5
-let amountSnippet = 5
-let rminWords = 5
-let rminPhrases = 3
-let rminTitles = 2
-let rminSnippet = 2
-let dmin = 3
-let dmax = 9
 let target
 
 
@@ -30,25 +21,50 @@ const textAlert = 'no words found! reload the page and try again'
 const gTitles = ['people also ask', 'related searches', 'videos']
 const regexAlphaNum = /[a-z][a-z0-9]+/gm
 const textTitleSpan = 'titles containing digits'
+const textFormValidation = {
+    'valid': 'Applied!',
+    'invalid': 'Please choose an integer greater than 1.'
+}
+const textFormLabels = {
+    'amount': 'Maximum outputs',
+    'rmin': 'Minimum occurances',
+    'dmin': 'Minimum words in a phrase',
+    'dmax': 'Maximum words in a phrase'
+}
+const textFormBtn = 'Apply'
 
 
 
-const tabNames = {
+let tabNames = {
     'words': {
         'var': 'words',
-        'dom': 'Words'
+        'dom': 'Words',
+        'updated': true,
+        'amount': 10,
+        'rmin': 5
     },
     'phrases': {
         'var': 'phrases',
-        'dom': 'Phrases'
+        'dom': 'Phrases',
+        'updated': true,
+        'amount': 15,
+        'rmin': 3,
+        'dmin': 3,
+        'dmax': 9
     },
     'titles': {
         'var': 'titles',
-        'dom': 'Titles'
+        'dom': 'Titles',
+        'updated': true,
+        'amount': 5,
+        'rmin': 2
     },
     'snippet': {
         'var': 'snippet',
-        'dom': 'Snippet'
+        'dom': 'Snippet',
+        'updated': true,
+        'amount': 5,
+        'rmin': 2
     },
 }
 
@@ -84,6 +100,9 @@ const attrBadgeSpan = {
 const attrTable = {
     'class': ['table', 'table-striped', 'table-hover', 'table-sm']
 }
+const attrTableContainer = {
+    'class': ['table-container']
+}
 const attrTableHead = {
     'scope': 'col',
     'class': ['text-center']
@@ -97,6 +116,35 @@ const attrTableData2 = {
 const attrAlert = {
     'class': ['alert', 'alert-danger']
 }
+const attrForm = {
+    'class': ['row', 'g-3', 'needs-validation'],
+    'novalidate': true
+}
+const attrFormCol1 = {
+    'class': ['col-6']
+}
+const attrFormCol2 = {
+    'class': ['col-12']
+}
+const attrFormLabel = {
+    'class': ['form-label']
+}
+const attrFormInput = {
+    'class': ['form-control', 'form-control-sm'],
+    'type': 'number',
+    'required': true
+}
+const attrFormValid = {
+    'class': ['valid-feedback']
+}
+const attrFormInvalid = {
+    'class': ['invalid-feedback']
+}
+const attrFormBtn = {
+    'class': ['btn', 'btn-sm'],
+    'type': 'submit'
+}
+
 
 
 

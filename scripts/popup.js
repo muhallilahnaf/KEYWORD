@@ -7,19 +7,19 @@ const initialize = () => {
 
 
 const clickRefresh = () => {
-    const message = localStorage.getItem(storageKey)
-    output = getOutput(message)
+    message = localStorage.getItem(storageKey)
+    getOutput()
     console.log(output)
     if (!output[tabNames.phrases.var]) {
         displayOutput()
         return
     }
-    displayOutput(output)
+    displayOutput()
 }
 
 
 
-const displayOutput = (output) => {
+const displayOutput = () => {
     target = document.getElementById(idTarget)
     target.replaceChildren()
     if (!output) {
@@ -33,29 +33,55 @@ const displayOutput = (output) => {
 
 
 
-const getOutput = (message) => {
-    const data = JSON.parse(message)
-    let outputPhrases, topWordList, outputTitles, outputSnippet
-    const text = data['text']
+const getOutput = () => {
+    output['data'] = JSON.parse(message)
+    getOutputWords()
+    getOutputPhrases()
+    getOutputSnippet()
+    getOutputTitles()
+}
+
+
+
+const getOutputWords = () => {
+    let topWordList
+    const text = output.data['text']
     if (text !== '') {
         const matches = text.toLowerCase().matchAll(regexAlphaNum)
         let wordList = []
         for (const match of matches) {
             wordList.push(match[0])
         }
+        output['wordlist'] = wordList
         const sWordList = wordList.filter(w => !stopwords.includes(w))
         const wordDict = counter(sWordList)
         topWordList = mostCommon(wordDict, amountWords, rminWords)
+    }
+    output[tabNames.words.var] = topWordList
+}
+
+
+const getOutputPhrases = () => {
+    let outputPhrases
+    const topWordList = output[tabNames.words.var]
+    if (topWordList) {
         let phrases = []
         topWordList.forEach(item => {
             const word = item[0]
-            const wordPhrases1 = getPhrasesByWord1(word, wordList, dmin, dmax)
-            const wordPhrases2 = getPhrasesByWord2(word, wordList, dmin, dmax)
+            const wordPhrases1 = getPhrasesByWord1(word, output['wordlist'], dmin, dmax)
+            const wordPhrases2 = getPhrasesByWord2(word, output['wordlist'], dmin, dmax)
             phrases = phrases.concat(wordPhrases1).concat(wordPhrases2)
         })
         outputPhrases = mostCommon(counter(phrases), amountPhrases, rminPhrases)
     }
-    const snippet = data[tabNames.snippet.var]
+    output[tabNames.phrases.var] = outputPhrases
+}
+
+
+
+const getOutputSnippet = () => {
+    let outputSnippet
+    const snippet = output.data[tabNames.snippet.var]
     if (snippet && snippet !== '') {
         const snippetMatches = snippet.toLowerCase().matchAll(regexAlphaNum)
         let snippetWordList = []
@@ -66,7 +92,14 @@ const getOutput = (message) => {
         const snippetWordDict = counter(sSnippetWordList)
         outputSnippet = mostCommon(snippetWordDict, amountSnippet, rminSnippet)
     }
-    const titles = data[tabNames.titles.var]
+    output[tabNames.snippet.var] = outputSnippet
+}
+
+
+
+const getOutputTitles = () => {
+    let outputTitles
+    const titles = output.data[tabNames.titles.var]
     if (titles && titles.length > 0) {
         const titleNo = titles.length
         let titleDigitCount = 0
@@ -86,13 +119,7 @@ const getOutput = (message) => {
             ...mostCommon(titleWordDict, amountTitles, rminTitles)
         ]
     }
-    return {
-        'words': topWordList,
-        'phrases': outputPhrases,
-        'snippet': outputSnippet,
-        'lsi': '',
-        'titles': outputTitles
-    }
+    output[tabNames.titles.var] = outputTitles
 }
 
 
