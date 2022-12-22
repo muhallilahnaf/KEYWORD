@@ -45,7 +45,7 @@ const getOutput = (message) => {
         }
         const sWordList = wordList.filter(w => !stopwords.includes(w))
         const wordDict = counter(sWordList)
-        topWordList = mostCommon(wordDict, amount)
+        topWordList = mostCommon(wordDict, amountWords, rminWords)
         let phrases = []
         topWordList.forEach(item => {
             const word = item[0]
@@ -53,7 +53,7 @@ const getOutput = (message) => {
             const wordPhrases2 = getPhrasesByWord2(word, wordList, dmin, dmax)
             phrases = phrases.concat(wordPhrases1).concat(wordPhrases2)
         })
-        outputPhrases = mostCommon(counter(phrases), amount)
+        outputPhrases = mostCommon(counter(phrases), amountPhrases, rminPhrases)
     }
     const snippet = data[tabNames.snippet.var]
     if (snippet && snippet !== '') {
@@ -64,7 +64,7 @@ const getOutput = (message) => {
         }
         const sSnippetWordList = snippetWordList.filter(w => !stopwords.includes(w))
         const snippetWordDict = counter(sSnippetWordList)
-        outputSnippet = mostCommon(snippetWordDict, amount)
+        outputSnippet = mostCommon(snippetWordDict, amountSnippet, rminSnippet)
     }
     const titles = data[tabNames.titles.var]
     if (titles && titles.length > 0) {
@@ -81,7 +81,10 @@ const getOutput = (message) => {
         })
         const sTitleWordList = titleWordList.filter(w => !stopwords.includes(w))
         const titleWordDict = counter(sTitleWordList)
-        outputTitles = [`${textTitleSpan}: ${titleDigitCount}/${titleNo}`, ...mostCommon(titleWordDict, 10)]
+        outputTitles = [
+            `${textTitleSpan}: ${titleDigitCount}/${titleNo}`,
+            ...mostCommon(titleWordDict, amountTitles, rminTitles)
+        ]
     }
     return {
         'words': topWordList,

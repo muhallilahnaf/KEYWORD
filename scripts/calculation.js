@@ -12,13 +12,13 @@ const counter = (list) => {
 }
 
 
-const mostCommon = (dict, q) => {
+const mostCommon = (dict, amount, rmin) => {
     let temp = []
     for (const [key, value] of Object.entries(dict)) {
-        if (value > 1) temp.push([key, value])
+        if (value >= rmin) temp.push([key, value])
     }
     temp.sort((a, b) => b[1] - a[1])
-    return temp.slice(0, q)
+    return temp.slice(0, amount)
 }
 
 

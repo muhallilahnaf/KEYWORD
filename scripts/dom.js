@@ -32,15 +32,17 @@ const createTabContent = (name) => {
     const thr = createNode('tr')
     let th1Text = 'Words'
     let th2Text = 'Count'
+    const th3Text = 'Metric'
     if (name == tabNames.phrases.var) {
         th1Text = 'Phrases'
         th2Text = 'Score'
     }
-    const th1 = createNode('th', th1Text, attrTableHeadScope)
-    const th2 = createNode('th', th2Text, attrTableHeadScope)
+    const th1 = createNode('th', th1Text, attrTableHead)
+    const th2 = createNode('th', th2Text, attrTableHead)
+    const th3 = createNode('th', th3Text, attrTableHead)
     thr.appendChild(th1)
     thr.appendChild(th2)
-    // [th1, th2].forEach(th => thr.appendChild(th))
+    thr.appendChild(th3)
     thead.appendChild(thr)
     table.appendChild(thead)
     const tbody = createNode('tbody')
@@ -53,17 +55,14 @@ const createTabContent = (name) => {
     items.forEach(item => {
         const q = { 'value': item[1], 'max': max }
         const tr = createNode('tr')
-        const td1 = createNode('td', item[0])
-        let td2Text = item[1]
-        if (name == tabNames.phrases.var) td2Text = ''
-        const td2 = createNode('td', td2Text)
-        const td3 = createNode('td')
+        const td1 = createNode('td', item[0], attrTableData1)
+        const td2 = createNode('td', item[1], attrTableData2)
+        const td3 = createNode('td', null, attrTableData2)
         const progress = createNode('progress', null, q)
         td3.appendChild(progress)
         tr.appendChild(td1)
         tr.appendChild(td2)
         tr.appendChild(td3)
-        // [td1, td2, td3].forEach(td => tr.appendChild(td))
         tbody.appendChild(tr)
     })
     table.appendChild(tbody)
@@ -91,14 +90,6 @@ const createTabs = () => {
             tabContent.appendChild(tabPane)
         }
     })
-    const triggerTabList = document.querySelectorAll(`${idTab} button`)
-    triggerTabList.forEach(triggerEl => {
-        const tabTrigger = new bootstrap.Tab(triggerEl)
-        triggerEl.addEventListener('click', event => {
-            event.preventDefault()
-            tabTrigger.show()
-        })
-    })
     target.appendChild(ul)
     target.appendChild(tabContent)
 }
@@ -106,6 +97,6 @@ const createTabs = () => {
 
 
 const openTab = (name) => {
-    const triggerEl = document.querySelector(`#${idTab} button[data-bs-target="#${name}-tab-pane"]`)
-    bootstrap.Tab.getInstance(triggerEl).show()
+    const tabBtn = document.getElementById(`${name}-tab`)
+    tabBtn.click()
 }

@@ -1,5 +1,12 @@
 let output
-let amount = 10
+let amountWords = 10
+let amountPhrases = 15
+let amountTitles = 5
+let amountSnippet = 5
+let rminWords = 5
+let rminPhrases = 3
+let rminTitles = 2
+let rminSnippet = 2
 let dmin = 3
 let dmax = 9
 let target
@@ -14,6 +21,7 @@ const idRefresh = 'btn'
 const idTarget = 'target'
 const idTab = 'tab'
 const idTabContent = 'tabContent'
+const idtitleDigits = 'titleDigits'
 
 
 
@@ -67,7 +75,8 @@ const attrTabContentItem = {
 }
 // class="tab-pane fade show active" id="Words-tab-pane"
 const attrBadgeRow = {
-    'class': ['row']
+    'class': ['row'],
+    'id': idtitleDigits
 }
 const attrBadgeSpan = {
     'class': ['badge', 'text-bg-info']
@@ -75,8 +84,15 @@ const attrBadgeSpan = {
 const attrTable = {
     'class': ['table', 'table-striped', 'table-hover', 'table-sm']
 }
-const attrTableHeadScope = {
-    'scope': 'col'
+const attrTableHead = {
+    'scope': 'col',
+    'class': ['text-center']
+}
+const attrTableData1 = {
+    'class': ['text-center', 'text-wrap']
+}
+const attrTableData2 = {
+    'class': ['text-center']
 }
 const attrAlert = {
     'class': ['alert', 'alert-danger']
