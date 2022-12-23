@@ -6,7 +6,7 @@ const check = () => {
     if (ready == 'interactive' || ready == 'complete') {
         console.log('check pass')
         const serp = document.URL.includes('https://www.google.com/search')
-        console.log(serp)
+        // console.log(serp)
         let data
         if (serp) {
             const text = document.getElementById('rso').innerText || ''

@@ -9,14 +9,53 @@ nav img {
     height: 60px;
 }
 
-#titleDigits {
-    font-size: medium;
+#titleDigits span.badge {
+    background-color: #b21a24 !important;
+    font-size: medium !important;
 }
 
-form button {
+.formToggle {
     background-color: #b21a24 !important;
+    color: white;
+}
+
+.top-container form {
+    background-color: lightgray !important;
 }
 
 .form-hide {
     display: none;
+}
+
+#target .nav-link {
+    color: black !important;
+}
+
+#target .nav-link.active {
+    color: #b21a24 !important;
+}
+
+progress::-moz-progress-bar {
+    background: #b21a24 !important;
+}
+
+progress::-webkit-progress-value {
+    background: #b21a24 !important;
+}
+
+progress {
+    color: #b21a24 !important;
+}
+
+progress {
+    accent-color: #b21a24 !important;
+}
+
+body::-webkit-scrollbar {
+    width: none;
+}
+
+body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }

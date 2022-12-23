@@ -18,7 +18,7 @@ const createNode = (tag, text, attr) => {
 
 const createTabContent = (tabName) => {
     const container = createNode('div')
-    const topContainer = createNode('div')
+    const topContainer = createNode('div', null, attr.topContainer)
     const formToggle = createFormToggle(tabName)
     topContainer.appendChild(formToggle)
     const form = createForm(tabName)
@@ -38,12 +38,18 @@ const createTabContent = (tabName) => {
 
 
 const createFormToggle = (tabName) => {
+    const formToggleContainer = createNode('div', null, attr.formToggleContainer)
     const formToggle = createNode('button', textFormToggle.show, attr.formToggle)
-    formToggle.addEventListener('click', () => {
+    formToggle.addEventListener('click', (e) => {
         const form = document.getElementById(id.getForm(tabName))
-        form.classList.toggle(clsFormToggle)
+        const present = form.classList.toggle(clsFormToggleHide)
+        if (present) {
+            e.target.innerText = textFormToggle.hide
+        }
+        e.target.innerText = textFormToggle.show
     })
-    return formToggle
+    formToggleContainer.appendChild(formToggle)
+    return formToggleContainer
 }
 
 
@@ -54,16 +60,12 @@ const createForm = (tabName) => {
     form.addEventListener('submit', event => {
         event.preventDefault()
         event.stopPropagation()
-        // const idStr = form.id
-        // const tabName = idStr.slice(0, idStr.indexOf('-form'))
         const validation = validateForm(tabName)
         if (validation) {
             reloadTabResult(tabName, validation)
-            form.classList.add(clsValidated)
-            setTimeout(() => form.classList.remove(clsValidated), 2000)
+            setTimeout(() => removeFormValidation(tabName), 2000)
         } else {
-            form.classList.add(clsValidated)
-            setTimeout(() => form.classList.remove(clsValidated), 2000)
+            setTimeout(() => removeFormValidation(tabName), 2000)
         }
     }, false)
     Object.keys(tabNames[tabName].inputNames).forEach(q => {
@@ -76,6 +78,17 @@ const createForm = (tabName) => {
     form.appendChild(colSubmit)
     return form
 }
+
+
+
+const removeFormValidation = (tabName) => {
+    const form = document.getElementById(id.getForm(tabName))
+    for (const [k, v] of Object.entries(tabNames[tabName].inputNames)) {
+        const input = document.getElementById(id.getFormInput(v, tabName))
+        input.classList.remove(clsValid, clsInvalid)
+    }
+}
+
 
 
 const createFormInput = (tabName, inputName) => {
@@ -182,27 +195,8 @@ const openTab = (tabName) => {
 
 
 const reloadTabResult = (tabName, validation) => {
-    switch (tabName) {
-        case tabNames.words.var:
-            tabNames.words.amount = validation.amount
-            tabNames.words.rmin = validation.rmin
-            break
-        case tabNames.phrases.var:
-            tabNames.phrases.amount = validation.amount
-            tabNames.phrases.rmin = validation.rmin
-            tabNames.phrases.dmin = validation.min
-            tabNames.phrases.dmax = validation.max
-            break
-        case tabNames.titles.var:
-            tabNames.titles.amount = validation.amount
-            tabNames.titles.rmin = validation.rmin
-            break
-        case tabNames.snippet.var:
-            tabNames.snippet.amount = validation.amount
-            tabNames.snippet.rmin = validation.rmin
-            break
-        default:
-            break
+    for (const [k, v] of Object.entries(tabNames[tabName].inputNames)) {
+        tabNames[tabName][k] = validation[v]
     }
     getOutput()
     Object.keys(tabNames).forEach(q => {
@@ -222,27 +216,17 @@ const updateTable = (tabName) => {
 
 
 const validateForm = (tabName) => {
-    const amountInput = document.getElementById(id.getFormInput(tabNames[tabName].inputNames.amount, tabName))
-    const rminInput = document.getElementById(id.getFormInput(tabNames[tabName].inputNames.rmin, tabName))
-    const amount = Number(amountInput.value)
-    const rmin = Number(rminInput.value)
-    const amountValid = Number.isInteger(amount) && amount > inputMinVal
-    const rminValid = Number.isInteger(rmin) && rmin > inputMinVal
-    amountValid ? amountInput.classList.add(clsValid) : amountInput.classList.add(clsInvalid)
-    rminValid ? rminInput.classList.add(clsValid) : rminInput.classList.add(clsInvalid)
-    if (tabName == tabNames.phrases.var) {
-        const minInput = document.getElementById(id.getFormInput(tabNames[tabName].inputNames.dmin, tabName))
-        const maxInput = document.getElementById(id.getFormInput(tabNames[tabName].inputNames.dmax, tabName))
-        const min = Number(minInput.value)
-        const max = Number(maxInput.value)
-        const minValid = Number.isInteger(min) && min > inputMinVal
-        const maxValid = Number.isInteger(max) && max > inputMinVal
-        minValid ? minInput.classList.add(clsValid) : minInput.classList.add(clsInvalid)
-        maxValid ? maxInput.classList.add(clsValid) : maxInput.classList.add(clsInvalid)
-        if (amountValid && rminValid && minValid && maxValid) return { amount, rmin, min, max }
-        return false
+    let validity = []
+    let temp = {}
+    for (const [k, v] of Object.entries(tabNames[tabName].inputNames)) {
+        const input = document.getElementById(id.getFormInput(v, tabName))
+        const value = Number(input.value)
+        temp[v] = value
+        const isValid = Number.isInteger(value) && value > inputMinVal
+        isValid ? input.classList.add(clsValid) : input.classList.add(clsInvalid)
+        validity.push(isValid)
     }
-    if (amountValid && rminValid) return { amount, rmin }
+    if (validity.every(Boolean)) return temp
     return false
 }
 

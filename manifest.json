@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "KEYWORD",
-  "version": "0.1.69",
+  "version": "0.0.1",
   "short_name": "analyzes SERP text",
   "description": "Simple tool to get various analytics for a SERP webpage text",
   "icons": {

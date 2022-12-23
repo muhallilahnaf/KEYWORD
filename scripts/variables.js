@@ -37,8 +37,10 @@ const textFormLabels = {
     dmax: 'Maximum words in a phrase'
 }
 const textFormToggle = {
-    show: 'Show Settings',
-    hide: 'Hide Settings',
+    // show: 'Show Settings',
+    // hide: 'Hide Settings',
+    show: 'Settings',
+    hide: 'Settings',
 }
 const textFormBtn = 'Apply'
 
@@ -49,7 +51,8 @@ const inputMinVal = 1
 const clsValid = 'is-valid'
 const clsInvalid = 'is-invalid'
 const clsValidated = 'was-validated'
-const clsFormToggle = 'form-hide'
+const clsFormToggle = 'formToggle'
+const clsFormToggleHide = 'form-hide'
 
 
 
@@ -140,12 +143,15 @@ const attr = {
         'class': ['tab-pane', 'fade']
     },
     // class:"tab-pane fade show active" id:"Words-tab-pane"
+    topContainer: {
+        'class': ['top-container', 'p-3', 'pt-2']
+    },
     badgeRow: {
         'class': ['row'],
         'id': id.titleDigits
     },
     badgeSpan: {
-        'class': ['badge', 'text-bg-info']
+        'class': ['badge', 'p-2'],
     },
     table: {
         'class': ['table', 'table-striped', 'table-hover', 'table-sm']
@@ -167,7 +173,7 @@ const attr = {
         'class': ['alert', 'alert-danger']
     },
     form: {
-        'class': ['row', 'g-3', 'needs-validation'],
+        'class': ['row', 'g-3', 'needs-validation', 'my-3', 'pb-2', clsFormToggleHide],
         'novalidate': true
     },
     formCol1: {
@@ -191,11 +197,14 @@ const attr = {
         'class': ['invalid-feedback']
     },
     formBtn: {
-        'class': ['btn', 'btn-sm'],
+        'class': ['btn', 'btn-sm', 'btn-dark'],
         'type': 'submit'
     },
     formToggle: {
-        'class': ['btn', 'btn-sm']
+        'class': ['btn', 'btn-sm', clsFormToggle]
+    },
+    formToggleContainer: {
+        'class': ['d-flex', 'justify-content-end']
     }
 }
 
