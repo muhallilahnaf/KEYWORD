@@ -1,6 +1,6 @@
-let message
-let output
-let target
+let message // body.innerText
+let output = {} // {data, wordlist, ...tabNames}
+let target // div#target
 
 
 
@@ -8,141 +8,195 @@ const storageKey = 'doctext'
 
 
 
-const idRefresh = 'btn'
-const idTarget = 'target'
-const idTab = 'tab'
-const idTabContent = 'tabContent'
-const idtitleDigits = 'titleDigits'
+const id = {
+    refresh: 'btn',
+    target: 'target',
+    tab: 'tab',
+    tabContent: 'tabContent',
+    titleDigits: 'titleDigits',
+    getFormInput: (inputName, tabName) => `${inputName}-${tabName}`,
+    getForm: (tabName) => `${tabName}-form`,
+    getTabBtn: (tabName) => `${tabName}-tab`,
+    getTabPane: (tabName) => `${tabName}-tab-pane`
+
+}
 
 
 
-
-const textAlert = 'no words found! reload the page and try again'
+const textAlert = 'No words found! reload the page and try again'
 const gTitles = ['people also ask', 'related searches', 'videos']
-const regexAlphaNum = /[a-z][a-z0-9]+/gm
 const textTitleSpan = 'titles containing digits'
 const textFormValidation = {
-    'valid': 'Applied!',
-    'invalid': 'Please choose an integer greater than 1.'
+    valid: 'Applied!',
+    invalid: 'Please choose an integer greater than 1.'
 }
 const textFormLabels = {
-    'amount': 'Maximum outputs',
-    'rmin': 'Minimum occurances',
-    'dmin': 'Minimum words in a phrase',
-    'dmax': 'Maximum words in a phrase'
+    amount: 'Maximum outputs',
+    rmin: 'Minimum occurances',
+    dmin: 'Minimum words in a phrase',
+    dmax: 'Maximum words in a phrase'
+}
+const textFormToggle = {
+    show: 'Show Settings',
+    hide: 'Hide Settings',
 }
 const textFormBtn = 'Apply'
 
 
 
+const regexAlphaNum = /[a-z][a-z0-9]+/gm
+const inputMinVal = 1
+const clsValid = 'is-valid'
+const clsInvalid = 'is-invalid'
+const clsValidated = 'was-validated'
+const clsFormToggle = 'form-hide'
+
+
+
 let tabNames = {
-    'words': {
-        'var': 'words',
-        'dom': 'Words',
-        'updated': true,
-        'amount': 10,
-        'rmin': 5
+    words: {
+        var: 'words',
+        dom: 'Words',
+        updated: true,
+        amount: 10,
+        rmin: 5,
+        th1Text: 'Words',
+        th2Text: 'Count',
+        th3Text: 'Metric',
+        inputNames: {
+            amount: 'amount',
+            rmin: 'rmin',
+        }
     },
-    'phrases': {
-        'var': 'phrases',
-        'dom': 'Phrases',
-        'updated': true,
-        'amount': 15,
-        'rmin': 3,
-        'dmin': 3,
-        'dmax': 9
+    phrases: {
+        var: 'phrases',
+        dom: 'Phrases',
+        updated: true,
+        amount: 15,
+        rmin: 3,
+        dmin: 3,
+        dmax: 9,
+        th1Text: 'Phrases',
+        th2Text: 'Score',
+        th3Text: 'Metric',
+        inputNames: {
+            amount: 'amount',
+            rmin: 'rmin',
+            dmin: 'dmin',
+            dmax: 'dmax'
+        }
     },
-    'titles': {
-        'var': 'titles',
-        'dom': 'Titles',
-        'updated': true,
-        'amount': 5,
-        'rmin': 2
+    titles: {
+        var: 'titles',
+        dom: 'Titles',
+        updated: true,
+        amount: 5,
+        rmin: 2,
+        th1Text: 'Words',
+        th2Text: 'Count',
+        th3Text: 'Metric',
+        inputNames: {
+            amount: 'amount',
+            rmin: 'rmin',
+        }
     },
-    'snippet': {
-        'var': 'snippet',
-        'dom': 'Snippet',
-        'updated': true,
-        'amount': 5,
-        'rmin': 2
+    snippet: {
+        var: 'snippet',
+        dom: 'Snippet',
+        updated: true,
+        amount: 5,
+        rmin: 2,
+        th1Text: 'Words',
+        th2Text: 'Count',
+        th3Text: 'Metric',
+        inputNames: {
+            amount: 'amount',
+            rmin: 'rmin',
+        }
     },
 }
 
 
-const attrTabs = {
-    'class': ['nav', 'nav-tabs', 'justify-content-center'],
-    'id': idTab
-}
-const attrTabItem = {
-    'class': ['nav-item'],
-}
-const attrTabBtn = {
-    'class': ['nav-link'],
-    'data-bs-toggle': 'tab',
-    'type': 'button'
-}
-// class="nav-link active" id="Words-tab" data-bs-target="#Words-tab-pane"
-const attrTabContent = {
-    'class': ['tab-content'],
-    'id': idTabContent
-}
-const attrTabContentItem = {
-    'class': ['tab-pane', 'fade']
-}
-// class="tab-pane fade show active" id="Words-tab-pane"
-const attrBadgeRow = {
-    'class': ['row'],
-    'id': idtitleDigits
-}
-const attrBadgeSpan = {
-    'class': ['badge', 'text-bg-info']
-}
-const attrTable = {
-    'class': ['table', 'table-striped', 'table-hover', 'table-sm']
-}
-const attrTableContainer = {
-    'class': ['table-container']
-}
-const attrTableHead = {
-    'scope': 'col',
-    'class': ['text-center']
-}
-const attrTableData1 = {
-    'class': ['text-center', 'text-wrap']
-}
-const attrTableData2 = {
-    'class': ['text-center']
-}
-const attrAlert = {
-    'class': ['alert', 'alert-danger']
-}
-const attrForm = {
-    'class': ['row', 'g-3', 'needs-validation'],
-    'novalidate': true
-}
-const attrFormCol1 = {
-    'class': ['col-6']
-}
-const attrFormCol2 = {
-    'class': ['col-12']
-}
-const attrFormLabel = {
-    'class': ['form-label']
-}
-const attrFormInput = {
-    'class': ['form-control', 'form-control-sm'],
-    'type': 'number',
-    'required': true
-}
-const attrFormValid = {
-    'class': ['valid-feedback']
-}
-const attrFormInvalid = {
-    'class': ['invalid-feedback']
-}
-const attrFormBtn = {
-    'class': ['btn', 'btn-sm'],
-    'type': 'submit'
+
+const attr = {
+    tabs: {
+        'class': ['nav', 'nav-tabs', 'justify-content-center'],
+        'id': id.tab
+    },
+    tabItem: {
+        'class': ['nav-item'],
+    },
+    tabBtn: {
+        'class': ['nav-link'],
+        'data-bs-toggle': 'tab',
+        'type': 'button'
+    },
+    // class:"nav-link active" id:"Words-tab" data-bs-target:"#Words-tab-pane"
+    tabContent: {
+        'class': ['tab-content'],
+        'id': id.tabContent
+    },
+    tabContentItem: {
+        'class': ['tab-pane', 'fade']
+    },
+    // class:"tab-pane fade show active" id:"Words-tab-pane"
+    badgeRow: {
+        'class': ['row'],
+        'id': id.titleDigits
+    },
+    badgeSpan: {
+        'class': ['badge', 'text-bg-info']
+    },
+    table: {
+        'class': ['table', 'table-striped', 'table-hover', 'table-sm']
+    },
+    tableContainer: {
+        'class': ['table-container']
+    },
+    tableHead: {
+        'scope': 'col',
+        'class': ['text-center']
+    },
+    tableData1: {
+        'class': ['text-center', 'text-wrap']
+    },
+    tableData2: {
+        'class': ['text-center']
+    },
+    alert: {
+        'class': ['alert', 'alert-danger']
+    },
+    form: {
+        'class': ['row', 'g-3', 'needs-validation'],
+        'novalidate': true
+    },
+    formCol1: {
+        'class': ['col-6']
+    },
+    formCol2: {
+        'class': ['col-12']
+    },
+    formLabel: {
+        'class': ['form-label']
+    },
+    formInput: {
+        'class': ['form-control', 'form-control-sm'],
+        'type': 'number',
+        'required': true
+    },
+    formValid: {
+        'class': ['valid-feedback']
+    },
+    formInvalid: {
+        'class': ['invalid-feedback']
+    },
+    formBtn: {
+        'class': ['btn', 'btn-sm'],
+        'type': 'submit'
+    },
+    formToggle: {
+        'class': ['btn', 'btn-sm']
+    }
 }
 
 
