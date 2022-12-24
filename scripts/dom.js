@@ -43,10 +43,13 @@ const createFormToggle = (tabName) => {
     formToggle.addEventListener('click', (e) => {
         const form = document.getElementById(id.getForm(tabName))
         const present = form.classList.toggle(clsFormToggleHide)
-        if (present) {
-            e.target.innerText = textFormToggle.hide
-        }
-        e.target.innerText = textFormToggle.show
+        // const btnToggle = document.querySelector(`#${id.getTabPane(tabName)} .${clsFormToggle}`)
+        // if (present) {
+        // e.target.innerText = textFormToggle.hide
+        // btnToggle.innerText = textFormToggle.hide
+        // }
+        // e.target.innerText = textFormToggle.show
+        // btnToggle.innerText = textFormToggle.show
     })
     formToggleContainer.appendChild(formToggle)
     return formToggleContainer

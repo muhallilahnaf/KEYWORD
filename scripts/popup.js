@@ -7,14 +7,15 @@ const initialize = () => {
 
 
 const clickRefresh = () => {
-    message = localStorage.getItem(storageKey)
-    getOutput()
-    console.log(output)
-    if (!output[tabNames.phrases.var]) {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const tabId = tabs[0].id
+        message = localStorage.getItem(`${storageKey}-${tabId}`)
+        if (message) {
+            getOutput()
+            // console.log(output)
+        }
         displayOutput()
-        return
-    }
-    displayOutput()
+    })
 }
 
 

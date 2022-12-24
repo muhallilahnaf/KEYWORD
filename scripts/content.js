@@ -1,4 +1,4 @@
-console.log('from content')
+// console.log('from content')
 let handle
 
 const check = () => {
@@ -16,14 +16,21 @@ const check = () => {
             if (titleNodes.length > 0) {
                 titleNodes.forEach(title => titles.push(title.innerText))
             }
-            data = JSON.stringify({ text, snippet, titles })
+            data = { text, snippet, titles }
         } else {
-            data = JSON.stringify({ 'text': document.querySelector('body').innerText || '' })
+            data = { text: document.querySelector('body').innerText || '' }
         }
-        const msg = { 'message': 'doctext', data }
-        localStorage.setItem(msg.message, msg.data)
-        chrome.runtime.sendMessage(msg)
-        clearInterval(handle)
+        chrome.runtime.sendMessage({ text: 'what is my tab_id?' }, (res) => {
+            // console.log(`My tabId is ${res.tabId}`)
+            data.tabId = res.tabId
+            const msg = {
+                message: `doctext-${res.tabId}`,
+                data: JSON.stringify(data)
+            }
+            localStorage.setItem(msg.message, msg.data)
+            chrome.runtime.sendMessage(msg)
+            clearInterval(handle)
+        })
     }
 }
 
